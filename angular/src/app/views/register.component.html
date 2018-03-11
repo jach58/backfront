@@ -1,0 +1,39 @@
+<div class="col-md-12">
+  <h3>{{title}}</h3>
+  <div class="alert alert-success" *ngIf="status == 'success'">
+    Se ha registrado correctamente, logueate <a [routerLink]="['/login']">desde
+    aqui</a>
+  </div>
+  <div class="alert alert-danger" *ngIf="status == 'error'">
+    No te has registrado correctamente!
+  </div>
+  <form #registerForm="ngForm" (ngSubmit)="onSubmit(); registerForm.reset();" class="col-md-7 no-padding">
+    <p>
+      <label for="nombre">Nombre</label>
+      <input type="text" class="form-control" required name="name" 
+      #name="ngModel" [(ngModel)]="user.name" id="nombre">
+      <span *ngIf="!name.valid && name.touched">El nombre no es válido</span>
+    </p>
+    <p>
+      <label for="apellidos">Apellidos</label>
+      <input type="text" class="form-control" required name="surname" 
+      #surname="ngModel" [(ngModel)]="user.surname" id="apellidos">
+      <span *ngIf="!surname.valid && surname.touched">Los Apellidos no son válidos</span>
+    </p>
+    <p>
+      <label for="email">Email</label>
+      <input type="text" class="form-control" required name="email" 
+      #email="ngModel" [(ngModel)]="user.email" id="email">
+      <span *ngIf="!email.valid && email.touched">El email no es válido</span>
+    </p>
+    <p>
+      <label for="password">Contraseña</label>
+      <input type="password" class="form-control" required name="password" 
+      #password="ngModel" [(ngModel)]="user.password" id="password">
+      <span *ngIf="!password.valid && password.touched">La contraseña no es válida</span>
+    </p>
+    <input type="submit" value="Registrarse" class="btn btn-success" [disabled]="!registerForm.form.valid">
+  </form>
+</div>
+
+

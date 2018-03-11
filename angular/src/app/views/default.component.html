@@ -1,0 +1,91 @@
+<div class="col-md-12">
+  <div *ngIf="!identity || identity == null">
+    Inicia sesión para acceder a más opciones...
+  </div>
+  <div class="col-md-12" *ngIf="identity && identity.sub">
+    <!-- Mostrar Buscador -->
+    <div class="col-md-12" role="search">
+      <div class="form-group col-md-6">
+        <label for="filter">Mostrar solo</label>
+        <select name="filter" id="filter" class="form-control" [(ngModel)]="filter">
+          <option value="0" selected="selected">Sin filtro</option>
+          <option value="1">Nuevas</option>
+          <option value="2">Para Hacer</option>
+          <option value="3">Acabada</option>
+        </select>
+      </div>
+      <div class="form-group col-md-6">
+        <label for="order">Orden po</label>
+        <select name="order" id="order" class="form-control" [(ngModel)]="order">
+          <option value="0" selected="selected">Por defecto</option>
+          <option value="1">Fecha ascendente</option>
+          <option value="2">Fecha descendente</option>
+        </select>
+      </div>
+      <div class="clearfix"></div>
+      <div class="form-group col-md-10">
+        <input type="text" placeholder="¿Que tarea buscas?" name="searchString" 
+        class="form-control" [(ngModel)]="searchString">
+      </div>
+      <button type="submit" aria-hidden="true" class="btn btn-default btn-search"
+      (click)="search();" >
+        <span class="glyphicon glyphicon-search">Buscar</span>
+      </button>
+    </div>
+    <div class="all-tasks">
+      <div class="loader" *ngIf= "loading == 'show'">
+        <img src="../assets/img/Gear.gif">
+      </div>
+      <table class="table table-hover table-striped" id="task-list"
+      *ngIf="tasks && tasks.length >= 1">
+        <tr>
+          <th>Estado</th>
+          <th>Titulo</th>
+          <th>Acción</th>
+        </tr>
+        <tr *ngFor="let task of tasks" class="task-item">
+          <td>
+            <h4>
+              <span class="label label-lg label-success" *ngIf="task.status=='finished'">
+                Acabada
+              </span>
+              <span class="label label-lg label-warning" *ngIf="task.status=='todo'">
+                En proceso
+              </span>
+              <span class="label label-lg label-primary" *ngIf="task.status=='new'">
+                Nueva
+              </span>
+            </h4>
+          </td>
+          <td>
+            <a [routerLink]="['task',task.id]"><h4>{{task.title}}</h4></a>
+          </td>
+          <td>
+            <a [routerLink]="['task-edit',task.id]" class="btn btn-warning">Editar</a>
+          </td>
+        </tr>
+      </table>
+      <div class="col-md-12"  *ngIf="loading == 'hide' && !tasks ||  tasks == 0">
+        <div class="clearfix"></div>
+        <div class="alert alert-warning">
+          No se han encontrado tareas, crealas <a [routerLink]="['/task-new']">pinchando aqui.</a>
+        </div>
+      </div>
+      <ul class="pagination" *ngIf="tasks && tasks.length>=1 && !searchString && !filter && !order">
+        <li>
+          <a [routerLink]="['/index', pagePrev]" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+          </a>
+        </li>
+        <li *ngFor="let page of pages">
+          <a [routerLink]="['/index',page+1]">{{page+1}}</a>
+        </li>
+        <li>
+          <a [routerLink]="['/index', pageNext]" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

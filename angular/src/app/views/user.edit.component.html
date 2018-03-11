@@ -1,0 +1,36 @@
+<div class="col-md-12">
+  <h3>{{title}}</h3>
+  <div class="alert alert-success" *ngIf="status == 'success'">
+    Tus datos se han actualizado correctamente
+  </div>
+  <div class="alert alert-danger" *ngIf="status == 'error'">
+    Tus datos no se han actualizado!
+  </div>
+  <form #updateForm="ngForm" (ngSubmit)="onSubmit()" class="col-md-7 no-padding">
+    <p>
+      <label for="nombre">Nombre</label>
+      <input type="text" class="form-control" name="name" id="nombre" 
+      #name="ngModel" [(ngModel)]=user.name required>
+      <span *ngIf="!name.valid && name.touched">El nombre es obligatorio</span>
+    </p>
+    <p>
+      <label for="apellidos">Apellidos</label>
+      <input type="text" class="form-control" name="surname" id="apellidos" 
+      #surname="ngModel" [(ngModel)]=user.surname required>
+      <span *ngIf="!surname.valid && email.touched">Los apellidos son obligatorios</span>
+    </p>
+    <p>
+      <label for="email">Email</label>
+      <input type="text" class="form-control" name="email" id="email"
+      #email="ngModel" [(ngModel)]=user.email required>
+      <span *ngIf="!email.valid && email.touched">El email es obligatorio</span>
+    </p>
+    <p>
+      <label for="password">Contraseña</label>
+      <input type="password" class="form-control" name="password" id="password"
+      #password="ngModel" [(ngModel)]=user.password>
+      <span *ngIf="!password.valid && password.touched">La contraseña es obligatoria</span>
+    </p>
+    <input type="submit" class="btn btn-warning" value="{{title}}" [disabled]="!updateForm.form.valid">
+  </form>
+</div>
